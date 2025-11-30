@@ -1,34 +1,35 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import FileUpload from './components/FileUpload'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileSelect = (file: File) => {
+    setSelectedFile(file);
+    console.log('File selected:', file.name);
+    // TODO: Parse the PDF file
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="app">
+      <header className="app-header">
+        <h1 className="app-title">Resume Analyzer</h1>
+        <p className="app-subtitle">Upload your resume and get instant feedback</p>
+      </header>
+
+      <main className="app-content">
+        <FileUpload onFileSelect={handleFileSelect} />
+
+        {selectedFile && (
+          <div className="card fade-in">
+            <h3>File Ready for Analysis</h3>
+            <p>File: {selectedFile.name}</p>
+            <p>Size: {(selectedFile.size / 1024).toFixed(2)} KB</p>
+          </div>
+        )}
+      </main>
+    </div>
   )
 }
 

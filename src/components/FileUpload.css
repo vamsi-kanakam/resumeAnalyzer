@@ -1,0 +1,94 @@
+.file-upload-container {
+    width: 100%;
+}
+
+.upload-zone {
+    border: 2px dashed var(--color-bg-hover);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    background-color: var(--color-bg-secondary);
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-lg);
+}
+
+.upload-zone:hover {
+    border-color: var(--color-accent-primary);
+    background-color: var(--color-bg-tertiary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.upload-zone.dragging {
+    border-color: var(--color-accent-secondary);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+    transform: scale(1.02);
+}
+
+.upload-zone.has-file {
+    border-color: var(--color-success);
+    background-color: rgba(16, 185, 129, 0.05);
+}
+
+.upload-icon {
+    color: var(--color-accent-primary);
+    transition: all var(--transition-base);
+}
+
+.upload-zone:hover .upload-icon {
+    transform: scale(1.1);
+    color: var(--color-accent-secondary);
+}
+
+.upload-zone.has-file .upload-icon {
+    color: var(--color-success);
+}
+
+.upload-text h3 {
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-size-xl);
+    color: var(--color-text-primary);
+}
+
+.upload-text p {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.file-type-hint {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    background-color: var(--color-bg-tertiary);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-sm);
+    margin-top: var(--spacing-sm);
+}
+
+/* Animation for file upload success */
+.upload-zone.has-file .upload-icon {
+    animation: successPulse 0.6s ease-out;
+}
+
+@keyframes successPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

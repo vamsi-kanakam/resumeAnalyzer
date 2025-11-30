@@ -1,39 +1,37 @@
 import { useState } from 'react'
 import './App.css'
+import { analyzeResume } from './services/llm/Service'
 
 function App() {
   const [resumeText, setResumeText] = useState('')
   const [jobDescription, setJobDescription] = useState('')
+  const [analysisResult, setAnalysisResult] = useState('')
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [error, setError] = useState('')
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     // Clear previous errors
     setError('')
 
     // Validation
-    if (!resumeText.trim()) {
-      setError('Please enter your resume text')
-      return
+    if (!resumeText.trim() || !jobDescription.trim()) {
+      setError('Please enter your resume text and job description')
+      return;
     }
 
-    if (!jobDescription.trim()) {
-      setError('Please enter the job description')
-      return
+    try {
+      setIsAnalyzing(true)
+      //call the analyzeResume function service, Pass the state Variables as parameters
+      const result = await analyzeResume(resumeText, jobDescription)
+      setAnalysisResult(result); //store the result
+      console.log('Analysis complete!');
     }
-
-    // Simulate analysis (replace with actual API call later)
-    setIsAnalyzing(true)
-    console.log('Analyzing resume...')
-    console.log('Resume:', resumeText)
-    console.log('Job Description:', jobDescription)
-
-    // Simulate API delay
-    setTimeout(() => {
-      setIsAnalyzing(false)
-      console.log('Analysis complete!')
-      // TODO: Display results
-    }, 2000)
+    catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+    }
+    finally {
+      setIsAnalyzing(false);
+    }
   }
 
   const handleResumeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -103,8 +101,15 @@ function App() {
           {isAnalyzing ? 'Analyzing...' : 'Analyze Resume'}
         </button>
       </div>
+      
+      {analysisResult && (
+        <div className="analysis-result">
+          <h2>Analysis Result</h2>
+          <pre>{analysisResult}</pre>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 export default App
